@@ -1,0 +1,15 @@
+{
+  "name": "rapture-toy-manager",
+  "version": "1.0.0",
+  "description": "Discord bot for Rapture",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kmorris896",
+  "license": "Proprietary",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0"
+  }
+}
