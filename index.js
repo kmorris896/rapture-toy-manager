@@ -22,16 +22,18 @@ bot.on('ready', () => {
 
 // Process Messages
 bot.on('message', msg => {
-  const args = msg.content.split(/ +/);
-  const command = args.shift().toLowerCase();
-  console.info(`Called command: ${command}`);
+  if (msg.content.startsWith(PREFIX)) {
+    const args = msg.content.substring(PREFIX.length).split(/ +/);
+    const command = args.shift().toLowerCase();
+    console.info(`Called command: ${command}`);
 
-  if (!bot.commands.has(command)) return;
+    if (!bot.commands.has(command)) return;
 
-  try {
-    bot.commands.get(command).execute(msg, args);
-  } catch (error) {
-    console.error(error);
-    msg.reply('there was an error trying to execute that command!');
+    try {
+      bot.commands.get(command).execute(msg, args);
+    } catch (error) {
+      console.error(error);
+      msg.reply('there was an error trying to execute that command!');
+    }
   }
 });
