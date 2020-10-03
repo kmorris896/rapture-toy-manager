@@ -22,7 +22,9 @@ bot.on('ready', () => {
 
 // Process Messages
 bot.on('message', msg => {
+  // Check to make sure that the message starts with the prefix.  Otherwise, quitely ignore
   if (msg.content.startsWith(PREFIX)) {
+    // Remove the prefix and then split the command by arguments.
     const args = msg.content.substring(PREFIX.length).split(/ +/);
     const command = args.shift().toLowerCase();
     console.info(`Called command: ${command}`);
