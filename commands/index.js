@@ -1,3 +1,3 @@
 module.exports = {
-    Foo: require('./foo.js'),
+    Foo: require('./ping.js'),
 };
