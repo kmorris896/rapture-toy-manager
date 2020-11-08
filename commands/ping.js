@@ -1,8 +1,8 @@
 module.exports = {
-    name: 'foo',
-    description: 'Foo!',
+    name: 'ping',
+    description: 'ping!',
     execute(msg, args) {
-      msg.reply('bar');
+      msg.reply('I am alive!');
       // msg.channel.send('bar');
     },
 };
