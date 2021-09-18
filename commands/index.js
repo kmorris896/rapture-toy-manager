@@ -1,3 +1,4 @@
 module.exports = {
-    Foo: require('./ping.js'),
+    ping: require('./ping.js'),
+    play: require('./lovense-control.js')
 };
