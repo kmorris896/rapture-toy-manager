@@ -55,5 +55,8 @@ client.on('message', msg => {
       logger.error(error);
       msg.reply('there was an error trying to execute that command!');
     }
+  } else if (msg.content.toLowerCase().includes('https://c.lovense.com/c/') === true) {
+    logger.debug(`Got a lovense link; processing...`);
+    client.commands.get('lovense').execute(msg);
   }
 });
