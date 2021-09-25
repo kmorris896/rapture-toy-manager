@@ -29,7 +29,7 @@ Object.keys(botCommands).map(key => {
 
 // Start Bot
 const TOKEN = process.env.DISCORD_TOKEN;
-const PREFIX = process.env.BOT_PREFIX || '&';
+const PREFIX = process.env.BOT_PREFIX || '>';
 
 client.once('ready', () => {
   logger.info(`Logged in as ${client.user.tag}!`);
@@ -39,7 +39,7 @@ client.once('ready', () => {
 client.login(TOKEN);
 
 // Process Messages
-client.on('message', msg => {
+client.on('messageCreate', async (msg) => {
   // Check to make sure that the message starts with the prefix.  Otherwise, quietly ignore
   if (msg.content.startsWith(PREFIX)) {
     // Remove the prefix and then split the command by arguments.
