@@ -35,6 +35,8 @@ const PREFIX = process.env.BOT_PREFIX || '>';
 client.once('ready', () => {
   logger.info(`Logged in as ${client.user.tag}!`);
   client.logger = logger;
+
+  client.commands.get('config').initializeConfig(client);
 });
 
 client.login(TOKEN);
