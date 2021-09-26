@@ -37,6 +37,7 @@ client.once('ready', () => {
   client.logger = logger;
 
   client.commands.get('config').initializeConfig(client);
+  client.user.setActivity('you play with yourself 😏.', { type: 'WATCHING'});
 });
 
 client.login(TOKEN);
