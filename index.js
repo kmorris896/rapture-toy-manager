@@ -3,8 +3,9 @@ require('dotenv').config();
 // ---------- Winston Logger Declarations
 const winston = require('winston');
 const log_level = process.env.LOG_LEVEL || 'info';
+console.log("Log Level Set: " + log_level);
 const logger = winston.createLogger({
-  level: log_level,
+  level: log_level.toLowerCase(),
   transports: [
     new winston.transports.Console({format: winston.format.combine(winston.format.colorize(), winston.format.simple())}),
     new winston.transports.File({filename: 'logs/combined.log'})

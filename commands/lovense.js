@@ -9,12 +9,18 @@ module.exports = {
     const reMatch = re.exec(msg.cleanContent.toLowerCase());
     const shortUrl = reMatch[1];
 
+    // Get the SID
     msg.client.logger.info('Got URL: ' + shortUrl);
     const sid = await getSid(shortUrl);
     msg.client.logger.info('SID: ' + sid);
     msg.reply('Got sid: ' + sid);
-
     
+    
+    // get toys
+    const toyData = await getToyInfo(sid);
+    msg.client.logger.debug('Got toyData: ' + JSON.stringify(toyData));
+    msg.reply('Got toys: ' + JSON.stringify(toyData.toys));
+    msg.reply('Got time: ' + toyData.leftTime);
   },
 };
 
@@ -32,9 +38,24 @@ async function getSid(url) {
   }
 }
 
+async function getToyInfo(sid) {
+  const json = await fetchJSON("https://api.lovense.com/developer/v2/loading/" + sid);
+
+  let returnObject = {};
+  // console.log("getToyInfo[" + this.shortURL + "]: " + JSON.stringify(json));
+  if (json.result === true) {
+    returnObject = json.data;
+    returnObject.toys = json.data.toyType.split(',');
+    returnObject.toyIds = json.data.toyId.split(',');
+  } else if (json.result === false) {
+    returnObject = json.result;
+  }
+
+  return returnObject;
+}
 
 async function fetchJSON(url, fetchOptions = {}){
-  if (fetchOptions.hasOwnProperty('timeout') === false)
+  if (Object.prototype.hasOwnProperty.call(fetchOptions, 'timeout') === false)
     fetchOptions.timeout = 60000;  // Set Timeout to 5 seconds
 
   try {
