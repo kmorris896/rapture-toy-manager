@@ -19,10 +19,26 @@ module.exports = {
     // get toys
     const toyData = await getToyInfo(sid);
     msg.client.logger.debug('Got toyData: ' + JSON.stringify(toyData));
+    toyReaction(msg, toyData.toys);
     msg.reply('Got toys: ' + JSON.stringify(toyData.toys));
     msg.reply('Got time: ' + toyData.leftTime);
   },
 };
+
+
+async function toyReaction(msg, toyArray) {
+  toyArray.forEach(element => {
+    // If there is a bot configuration for the server AND 
+    // the bot configuration has an emote for the toy
+    // and the length of that emote is greater than 0
+    if ((Object.prototype.hasOwnProperty.call(msg.client.botConfig, msg.guildId)) &&
+        (Object.prototype.hasOwnProperty.call(msg.client.botConfig[msg.guildId].toyEmotes, element)) && 
+        (msg.client.botConfig[msg.guildId].toyEmotes[element].length > 0))
+          msg.react(msg.client.botConfig[msg.guildId].toyEmotes[element]);
+    else 
+      msg.client.logger.info(element + ": server is not configured or no emote listed for toy");
+  });
+}
 
 // It's safe to assume urls will start with https://c.lovense.com/c/xxxxxx
 async function getSid(url) {

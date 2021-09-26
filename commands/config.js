@@ -6,7 +6,7 @@ module.exports = {
   description: 'Configure the bot',
   async initializeConfig(client) {
     try {
-      const configFile = fs.readFileSync('./config/config.json', 'utf8');
+      const configFile = fs.readFileSync('./config/server-config.json', 'utf8');
       const configJson = JSON.parse(configFile);
 
       for (let configServerId in configJson) {
