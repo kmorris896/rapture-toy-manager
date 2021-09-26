@@ -58,7 +58,7 @@ client.on('messageCreate', async (msg) => {
       logger.error(error);
       msg.reply('there was an error trying to execute that command!');
     }
-  } else if (msg.content.toLowerCase().includes('https://c.lovense.com/c/') === true) {
+  } else if ((msg.content.toLowerCase().includes('https://c.lovense.com/c/') === true) && (msg.author.bot === false)) {
     logger.debug(`Got a lovense link; processing...`);
     client.commands.get('lovense').execute(msg);
   }
