@@ -1,5 +1,6 @@
 require('../');
 const nodeFetch = require('node-fetch');
+const ms = require('ms');
 
 module.exports = {
   name: 'lovense',
@@ -19,12 +20,43 @@ module.exports = {
     // get toys
     const toyData = await getToyInfo(sid);
     msg.client.logger.debug('Got toyData: ' + JSON.stringify(toyData));
-    toyReaction(msg, toyData.toys);
-    msg.reply('Got toys: ' + JSON.stringify(toyData.toys));
-    msg.reply('Got time: ' + toyData.leftTime);
+    await toyReaction(msg, toyData.toys);
+    await timeReaction(msg, toyData.leftTime);
+    // msg.reply('Got toys: ' + JSON.stringify(toyData.toys));
+    // msg.reply('Got time: ' + toyData.leftTime);
   },
 };
 
+async function timeReaction(msg, leftTime) {
+  const numberEmoteArray = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'];
+  let reactEmoteArray = [];
+  
+  if (leftTime === 0) 
+    reactEmoteArray.push('♾');
+  else if (leftTime < 60) // Less than one minute
+    reactEmoteArray.push('1️⃣');
+  else {
+    let leftTimeMins = parseInt(ms(ms(leftTime + 's')));
+
+    // If the first digit and second digit are the same, add one.
+    if ((leftTimeMins > 10) && (leftTimeMins.toString()[0] === leftTimeMins.toString()[1])) 
+      leftTimeMins++;
+    
+    const leftTimeMinsString = leftTimeMins.toString();
+    for (let index = 0; index < leftTimeMinsString.length; index++) {
+      const digit = parseInt(leftTimeMinsString[index]);
+      msg.client.logger.debug('lovense.TimeReaction: parsing ' + digit);
+
+      reactEmoteArray.push(numberEmoteArray[digit]);
+    }
+  }
+
+  for (let index = 0; index < reactEmoteArray.length; index++) {
+    const emote = reactEmoteArray[index];
+    await msg.react(emote);
+  }
+
+}
 
 async function toyReaction(msg, toyArray) {
   toyArray.forEach(element => {
