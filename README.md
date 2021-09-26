@@ -1,3 +1,3 @@
 # Rapture Toy Manager
 
-More to come.
+Manages Control Links that appear in Discord Channels.

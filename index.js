@@ -3,8 +3,9 @@ require('dotenv').config();
 // ---------- Winston Logger Declarations
 const winston = require('winston');
 const log_level = process.env.LOG_LEVEL || 'info';
+console.log("Log Level Set: " + log_level);
 const logger = winston.createLogger({
-  level: log_level,
+  level: log_level.toLowerCase(),
   transports: [
     new winston.transports.Console({format: winston.format.combine(winston.format.colorize(), winston.format.simple())}),
     new winston.transports.File({filename: 'logs/combined.log'})
@@ -29,17 +30,20 @@ Object.keys(botCommands).map(key => {
 
 // Start Bot
 const TOKEN = process.env.DISCORD_TOKEN;
-const PREFIX = process.env.BOT_PREFIX || '&';
+const PREFIX = process.env.BOT_PREFIX || '>';
 
 client.once('ready', () => {
   logger.info(`Logged in as ${client.user.tag}!`);
   client.logger = logger;
+
+  client.commands.get('config').initializeConfig(client);
+  client.user.setActivity('you play with yourself 😏.', { type: 'WATCHING'});
 });
 
 client.login(TOKEN);
 
 // Process Messages
-client.on('message', msg => {
+client.on('messageCreate', async (msg) => {
   // Check to make sure that the message starts with the prefix.  Otherwise, quietly ignore
   if (msg.content.startsWith(PREFIX)) {
     // Remove the prefix and then split the command by arguments.
@@ -55,5 +59,8 @@ client.on('message', msg => {
       logger.error(error);
       msg.reply('there was an error trying to execute that command!');
     }
+  } else if ((msg.content.toLowerCase().includes('https://c.lovense.com/c/') === true) && (msg.author.bot === false)) {
+    logger.debug(`Got a lovense link; processing...`);
+    client.commands.get('lovense').execute(msg);
   }
 });

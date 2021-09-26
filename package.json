@@ -12,6 +12,8 @@
   "dependencies": {
     "discord.js": "^13.1.0",
     "dotenv": "^8.2.0",
+    "ms": "^3.0.0-canary.1",
+    "node-fetch": "^2.6.5",
     "winston": "^3.3.3"
   }
 }

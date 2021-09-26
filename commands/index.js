@@ -1,3 +1,5 @@
 module.exports = {
-    Foo: require('./ping.js'),
+    ping: require('./ping.js'),
+    lovense: require('./lovense.js'),
+    config: require('./config.js')
 };
