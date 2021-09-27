@@ -14,7 +14,7 @@ module.exports = {
     msg.client.logger.info('Got URL: ' + shortUrl);
     const sid = await getSid(shortUrl);
     msg.client.logger.info('SID: ' + sid);
-    msg.reply('Got sid: ' + sid);
+    // msg.reply('Got sid: ' + sid);
     
     
     // get toys
