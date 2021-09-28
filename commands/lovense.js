@@ -16,7 +16,6 @@ module.exports = {
     msg.client.logger.info('SID: ' + sid);
     // msg.reply('Got sid: ' + sid);
     
-    
     // get toys
     const toyData = await getToyInfo(sid);
     msg.client.logger.debug('Got toyData: ' + JSON.stringify(toyData));
@@ -67,8 +66,10 @@ async function toyReaction(msg, toyArray) {
         (Object.prototype.hasOwnProperty.call(msg.client.botConfig[msg.guildId].toyEmotes, element)) && 
         (msg.client.botConfig[msg.guildId].toyEmotes[element].length > 0))
           msg.react(msg.client.botConfig[msg.guildId].toyEmotes[element]);
-    else 
+    else {
+      msg.react(msg.client.botConfig[msg.guildId].toyEmotes.unknown);
       msg.client.logger.info(element + ": server is not configured or no emote listed for toy");
+    }
   });
 }
 
@@ -79,17 +80,29 @@ async function getSid(url) {
   if (res.status == "302") {  
     const locationValue = res.headers.get('location');
     console.log("Location Header: " + locationValue);
-    const re = new RegExp("(\\w+)$");
+    const re = new RegExp("play\/(\\w+)");
     const reMatch = re.exec(locationValue);
-    
-    return reMatch[1];
+
+    if ((reMatch !== null) && (reMatch.length == 2))     
+      return reMatch[1];
+    else 
+      return null;
   }
 }
 
 async function getToyInfo(sid) {
+  let returnObject = {};
+
+  if (sid === null) {
+    returnObject = {
+      "toys": ["invalid"],
+      "leftTime": 0
+    };
+  }
+
   const json = await fetchJSON("https://api.lovense.com/developer/v2/loading/" + sid);
 
-  let returnObject = {};
+  
   // console.log("getToyInfo[" + this.shortURL + "]: " + JSON.stringify(json));
   if (json.result === true) {
     returnObject = json.data;
