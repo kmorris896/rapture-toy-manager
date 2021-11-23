@@ -41,6 +41,9 @@ async function timeReaction(msg, leftTime) {
     if ((leftTimeMins > 10) && (leftTimeMins.toString()[0] === leftTimeMins.toString()[1])) 
       leftTimeMins++;
     
+    if (letTimeMins >= 100) // Timers cannot go above 99 minutes.
+      leftTimeMins = 98;
+
     const leftTimeMinsString = leftTimeMins.toString();
     for (let index = 0; index < leftTimeMinsString.length; index++) {
       const digit = parseInt(leftTimeMinsString[index]);
