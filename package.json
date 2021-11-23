@@ -1,7 +1,7 @@
 {
   "name": "rapture-toy-manager",
-  "version": "1.2.0-beta.1",
-  "description": "Discord bot for Rapture",
+  "version": "1.2.0",
+  "description": "Lovense Toy Reaction Bot",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
