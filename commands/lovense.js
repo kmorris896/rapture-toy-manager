@@ -6,9 +6,9 @@ module.exports = {
   name: 'lovense',
   description: 'Lovense Handler',
   async execute(msg) {
-    const re = new RegExp('(https://c.lovense.com/c/\\w+)');
+    const re = new RegExp('https://c.lovense.com/(c|v2)/(\\w+)');
     const reMatch = re.exec(msg.cleanContent.toLowerCase());
-    const shortUrl = reMatch[1];
+    const shortUrl = 'https://c.lovense.com/c/' + reMatch[2];
 
     // Get the SID
     msg.client.logger.info('Got URL: ' + shortUrl);
